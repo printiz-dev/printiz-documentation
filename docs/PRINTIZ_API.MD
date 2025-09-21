@@ -181,9 +181,12 @@ Authorization: Bearer [your-token-goes-here]
 **GET** `/api/orders/`
 #### Params for lookup order by id(s) or unique code(s)
 Single Search
-search: `/api/orders/search=23-13452-90981`
+</br>
+`/api/orders/search=23-13452-90981`
+</br>
 Multiple Search
-search: `/api/orders/search=23-13452-90981 21-13455-64028`
+</br>
+`/api/orders/search=23-13452-90981 21-13455-64028`
 #### Request
 ```json
 {}
