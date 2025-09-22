@@ -15,7 +15,7 @@ All requests are JSON over HTTPS, and all responses are JSON encoded.
 ---
 
 ## Base URL
-https://printiz.us/
+https://printiz.app/
 
 ---
 
