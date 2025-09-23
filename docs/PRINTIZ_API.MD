@@ -27,7 +27,7 @@ Use the **Login API** to obtain a token, then include it in the `Authorization` 
 Authorization: Bearer [your-token-goes-here]
 
 ### Login
-**POST** `/users/auth/login`
+**POST** `api/users/auth/login`
 
 #### Request
 ```json
