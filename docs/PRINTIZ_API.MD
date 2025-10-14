@@ -11,7 +11,7 @@ All requests are JSON over HTTPS, and all responses are JSON encoded.
     - [Login API](#login)
     - [Create Orders API](#create-orders)
     - [Get Orders API](#get-orders)
-
+    - [List Products API](#list-products)
 ---
 
 ## Base URL
@@ -347,5 +347,47 @@ Multiple Search
             "count_total_items": 166
         }
     }
+}
+```
+
+### List Products
+**GET** `/api/products/`
+#### Request
+```json
+{}
+```
+#### Response
+```json
+{
+    "product_detail_list": [
+        {
+            "id": "fulltshirt_xs_black",
+            "code": "",
+            "name": "FULL TSHIRT (LARGE IMAGE)",
+            "size": "xs",
+            "color": "black",
+            "base_cost": 0.0,
+            "double_sided_printing": 3.5,
+            "special_printing": 2.79,
+            "first_item_shipping": 4.99,
+            "additional_item_shipping": 2.5
+        },
+        {
+            "id": "fulltshirt_s_black",
+            "code": "",
+            "name": "FULL TSHIRT (LARGE IMAGE)",
+            "size": "s",
+            "color": "black",
+            "base_cost": 4.8,
+            "double_sided_printing": 3.5,
+            "special_printing": 2.79,
+            "first_item_shipping": 4.99,
+            "additional_item_shipping": 2.5
+        }
+    ],
+    "product_color_variants": [
+        "Antique Cherry Red",
+        "Antique Irish Green"
+    ]
 }
 ```
