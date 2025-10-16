@@ -66,116 +66,101 @@ Authorization: Bearer [your-token-goes-here]
 
 
 ### Create Orders
-**POST** `/api/orders/create-orders`
+**POST** `/api/orders/v1/create-orders`
 
 #### Request
 ```json
 {
   "orders": [
         {
-            "order_unique_code": "TT_24US_NY213",
-            "external_id": "577038693459857585",
-            "customer_name": "Reagan Martin",
-            "customer_email": "v4bD3X66J3IAHK5CG5PUN6NW33W24@scs.tiktokw.us",
-            "customer_contact": "(+1)8703230639",
-            "delivery_street": "4120 Cypress Knoll Dr",
-            "delivery_city": "Jonesboro",
+            "order_unique_code": "AZBV_TT0811_007_577036687762100371",
+            "external_id": "577036687762100371",
+            "order_type": "label",
+            "status": "Order_Await_Approval",
+            "customer_name": "T***as D***ll",
+            "customer_email": "v4bD2USHHNJ5RYNGGVP4MQ6C33W24@scs.tiktokw.us",
+            "customer_contact": "(+1)501*****46",
+            "delivery_street": "42************",
+            "delivery_city": "N ***********",
             "delivery_state": "Arkansas",
-            "delivery_zip_code": "72405",
+            "delivery_zip_code": "72***",
             "delivery_country": "US",
             "delivery_unit": "",
+            "subtotal": 10.5,
+            "total": 11.0,
+            "delivery_fee": 0.5,
+            "service_fee": 0,
             "platform": "TIKTOK",
-            "tracking_number": "",
-            "delivery_label": "",
+            "platform_business_id": "2",
+            "created_at_epoch": 1755147628,
+            "scheduled_complete_at_epoch": 0,
+            "tracking_number": "9400109208316578510797",
+            "delivery_label": "https://open-fs.tiktokshops.us/wsos_v2/oec_fulfillment_doc_tts/object/wsos6875cd8983598b37?expire=1752637210&skipCookie=true&timeStamp=1752550810&sign=4441f3e1b06a2f3f06aa85d9dd94051f36d2170a4b88778239e872fd0a2d8dd2",
             "items": [
                 {
+                    "item_unique_code": "AZBV_TT0811_007_577036687762100371_1755147628",
+                    "product_unique_code": "TSHIRTGILDAN5000_2XL_SAND",
+                    "product_code": "shirtVFbHFh",
+                    "product_name": "Tshirt",
                     "quantity": 1,
+                    "unit_price": 7.0,
+                    "total": 10.5,
                     "note": "",
-                    "size": "XL",
+                    "size": "2XL",
                     "color": "SAND",
                     "shirt_type": "Tshirt",
-                    "front_design": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
-                    "back_design": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
-                    "mockup_front": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
-                    "mockup_back": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
+                    "front_design": "https://s3.amazonaws.com/az89ecom.image/47370_front.png",
+                    "back_design": "https://s3.amazonaws.com/az89ecom.image/47370_back.png",
+                    "mockup_front": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
+                    "mockup_back": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
                     "extra_design_1": null,
                     "mockup_extra_1": null,
                     "extra_design_2": null,
                     "mockup_extra_2": null,
                     "extra_design_3": null,
                     "mockup_extra_3": null,
-                    "is_rush": "no"
+                    "is_rush": false
                 }
-            ]
-        },
-        {
-            "order_unique_code": "TT_24US_NY213_01",
-            "external_id": "5770386934598575851",
-            "customer_name": "Reagan Martin",
-            "customer_email": "v4bD3X66J3IAHK5CG5PUN6NW33W24@scs.tiktokw.us",
-            "customer_contact": "(+1)8703230639",
-            "delivery_street": "4120 Cypress Knoll Dr",
-            "delivery_city": "Jonesboro",
-            "delivery_state": "Arkansas",
-            "delivery_zip_code": "72405",
-            "delivery_country": "US",
-            "delivery_unit": "",
-            "platform": "TIKTOK",
-            "tracking_number": "123456789",
-            "delivery_label": "https://drive.google.com/file/d/1QU_u1IPmPsNdRKfRVUWmma3S5V_RxNvP/view?usp=sharing",
-            "items": [
+            ],
+            "order_detail": {
+                "shipping_method": "",
+                "link_label": "https://open-fs.tiktokshops.us/wsos_v2/oec_fulfillment_doc_tts/object/wsos6875cd8983598b37?expire=1752637210&skipCookie=true&timeStamp=1752550810&sign=4441f3e1b06a2f3f06aa85d9dd94051f36d2170a4b88778239e872fd0a2d8dd2",
+                "note": "",
+                "order_change_actions": [],
+                "additional_params": {
+                    "priority": "normal",
+                    "special_instructions": ""
+                }
+            },
+            "order_change_actions": [
                 {
-                    "quantity": 2,
-                    "note": "",
-                    "size": "L",
-                    "color": "SAND",
-                    "shirt_type": "kidshirt",
-                    "front_design": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
-                    "back_design": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
-                    "mockup_front": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
-                    "mockup_back": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
-                    "extra_design_1": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
-                    "mockup_extra_1": "https://s3.amazonaws.com/az89ecom.image/66914_front.png",
-                    "extra_design_2": null,
-                    "mockup_extra_2": null,
-                    "extra_design_3": null,
-                    "mockup_extra_3": null,
-                    "is_rush": "yes"
+                    "action_type": "Order_Await_Approval",
+                    "at_epoch_second": 1755147628,
+                    "description": "Order has been uploaded from .csv and awaits approval.",
+                    "changed_by": "Seller-API-2"
                 }
             ]
         }
-  ]
+    ]
 }
 ```
 #### Response
 ```json
 {
-    "message": "Bulk order creation completed. Created: 2, Updated: 0, Errors: 0",
-    "total_processed": 2,
-    "success_count": 2,
-    "error_count": 0,
-    "created_count": 2,
-    "updated_count": 0,
-    "results": [
+    "response_code": 200,
+    "success_orders": [
         {
-            "index": 0,
-            "order_unique_code": "TT_24US_NY213",
-            "success": true,
-            "message": "Order created successfully",
-            "order_id": 1,
-            "updated": false
-        },
-        {
-            "index": 1,
-            "order_unique_code": "TT_24US_NY213_01",
-            "success": true,
-            "message": "Order created successfully",
-            "order_id": 2,
-            "updated": false
+            "order_unique_code": "AZBV_TT0811_007_577036687762100371",
+            "status": "Order_Await_Approval"
         }
-    ]
+    ],
+    "error_orders": [],
+    "failed_orders": [],
+    "total_requested_count": 1,
+    "total_imported_count": 1
 }
 ```
+
 
 ### Get Orders
 **GET** `/api/orders/`
