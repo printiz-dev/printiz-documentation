@@ -68,43 +68,29 @@ Authorization: Bearer [your-token-goes-here]
 ### Create Orders
 **POST** `/api/orders/v1/create-orders`
 
-#### Request
+#### Request - Order Type `normal`
 ```json
 {
-  "orders": [
+    "orders": [
         {
             "order_unique_code": "AZBV_TT0811_007_577036687762100371",
             "external_id": "577036687762100371",
-            "order_type": "label",
-            "status": "Order_Await_Approval",
-            "customer_name": "T***as D***ll",
+            "order_type": "normal",
+            "order_page_type": "",
+            "customer_name": "Maya Smith",
             "customer_email": "v4bD2USHHNJ5RYNGGVP4MQ6C33W24@scs.tiktokw.us",
-            "customer_contact": "(+1)501*****46",
-            "delivery_street": "42************",
-            "delivery_city": "N ***********",
-            "delivery_state": "Arkansas",
-            "delivery_zip_code": "72***",
+            "customer_contact": "(+1)3212793ABC",
+            "delivery_street": "550 Battery St",
+            "delivery_unit": "Apt 123",
+            "delivery_city": "San Francisco",
+            "delivery_state": "California",
+            "delivery_zip_code": "94111",
             "delivery_country": "US",
-            "delivery_unit": "",
-            "subtotal": 10.5,
-            "total": 11.0,
-            "delivery_fee": 0.5,
-            "service_fee": 0,
-            "platform": "TIKTOK",
-            "platform_business_id": "2",
-            "created_at_epoch": 1755147628,
-            "scheduled_complete_at_epoch": 0,
-            "tracking_number": "9400109208316578510797",
-            "delivery_label": "https://open-fs.tiktokshops.us/wsos_v2/oec_fulfillment_doc_tts/object/wsos6875cd8983598b37?expire=1752637210&skipCookie=true&timeStamp=1752550810&sign=4441f3e1b06a2f3f06aa85d9dd94051f36d2170a4b88778239e872fd0a2d8dd2",
+            "tracking_number": "",
+            "delivery_label": "",
             "items": [
                 {
-                    "item_unique_code": "AZBV_TT0811_007_577036687762100371_1755147628",
-                    "product_unique_code": "TSHIRTGILDAN5000_2XL_SAND",
-                    "product_code": "shirtVFbHFh",
-                    "product_name": "Tshirt",
                     "quantity": 1,
-                    "unit_price": 7.0,
-                    "total": 10.5,
                     "note": "",
                     "size": "2XL",
                     "color": "SAND",
@@ -121,29 +107,102 @@ Authorization: Bearer [your-token-goes-here]
                     "mockup_extra_3": null,
                     "is_rush": false
                 }
-            ],
-            "order_detail": {
-                "shipping_method": "",
-                "link_label": "https://open-fs.tiktokshops.us/wsos_v2/oec_fulfillment_doc_tts/object/wsos6875cd8983598b37?expire=1752637210&skipCookie=true&timeStamp=1752550810&sign=4441f3e1b06a2f3f06aa85d9dd94051f36d2170a4b88778239e872fd0a2d8dd2",
-                "note": "",
-                "order_change_actions": [],
-                "additional_params": {
-                    "priority": "normal",
-                    "special_instructions": ""
-                }
-            },
-            "order_change_actions": [
-                {
-                    "action_type": "Order_Await_Approval",
-                    "at_epoch_second": 1755147628,
-                    "description": "Order has been uploaded from .csv and awaits approval.",
-                    "changed_by": "Seller-API-2"
-                }
-            ]
+            ] 
         }
     ]
 }
 ```
+
+#### Request - Order Type `label`
+```json
+{
+    "orders": [
+        {
+            "order_unique_code": "AZBV_TT0811_007_577036687762100371",
+            "external_id": "577036687762100371",
+            "order_type": "label",
+            "order_page_type": "",
+            "customer_name": "S***nna M***ne",
+            "customer_email": "v4bD2USHHNJ5RYNGGVP4MQ6C33W24@scs.tiktokw.us",
+            "customer_contact": "(+1)501*****46",
+            "delivery_street": "42************",
+            "delivery_unit": "",
+            "delivery_city": "N ***********",
+            "delivery_state": "Arkansas",
+            "delivery_zip_code": "72***",
+            "delivery_country": "US",
+            "tracking_number": "9400109208316578510797",
+            "delivery_label": "https://open-fs.tiktokshops.us/wsos_v2/oec_fulfillment_doc_tts/object/wsos6875cd8983598b37?expire=1752637210&skipCookie=true&timeStamp=1752550810&sign=4441f3e1b06a2f3f06aa85d9dd94051f36d2170a4b88778239e872fd0a2d8dd2",
+            "items": [
+                {
+                    "quantity": 1,
+                    "note": "",
+                    "size": "2XL",
+                    "color": "SAND",
+                    "shirt_type": "Tshirt",
+                    "front_design": "https://s3.amazonaws.com/az89ecom.image/47370_front.png",
+                    "back_design": "https://s3.amazonaws.com/az89ecom.image/47370_back.png",
+                    "mockup_front": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
+                    "mockup_back": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
+                    "extra_design_1": null,
+                    "mockup_extra_1": null,
+                    "extra_design_2": null,
+                    "mockup_extra_2": null,
+                    "extra_design_3": null,
+                    "mockup_extra_3": null,
+                    "is_rush": false
+                }
+            ] 
+        }
+    ]
+}
+```
+
+#### Request - Order Page Type `DTG`
+```json
+{
+    "orders": [
+        {
+            "order_unique_code": "AZBV_TT0811_007_577036687762100371",
+            "external_id": "577036687762100371",
+            "order_type": "label",
+            "order_page_type": "DTG",
+            "customer_name": "S***nna M***ne",
+            "customer_email": "v4bD2USHHNJ5RYNGGVP4MQ6C33W24@scs.tiktokw.us",
+            "customer_contact": "(+1)501*****46",
+            "delivery_street": "42************",
+            "delivery_unit": "",
+            "delivery_city": "N ***********",
+            "delivery_state": "Arkansas",
+            "delivery_zip_code": "72***",
+            "delivery_country": "US",
+            "tracking_number": "",
+            "delivery_label": "",
+            "items": [
+                {
+                    "quantity": 1,
+                    "note": "",
+                    "size": "2XL",
+                    "color": "SAND",
+                    "shirt_type": "Tshirt",
+                    "front_design": "https://s3.amazonaws.com/az89ecom.image/47370_front.png",
+                    "back_design": "https://s3.amazonaws.com/az89ecom.image/47370_back.png",
+                    "mockup_front": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
+                    "mockup_back": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
+                    "extra_design_1": null,
+                    "mockup_extra_1": null,
+                    "extra_design_2": null,
+                    "mockup_extra_2": null,
+                    "extra_design_3": null,
+                    "mockup_extra_3": null,
+                    "is_rush": false
+                }
+            ] 
+        }
+    ]
+}
+```
+
 #### Response
 ```json
 {
@@ -167,11 +226,11 @@ Authorization: Bearer [your-token-goes-here]
 #### Params for lookup order by id(s) or unique code(s)
 Single Search
 </br>
-`/api/orders/search=23-13452-90981`
+`/api/orders?search=23-13452-90981`
 </br>
 Multiple Search
 </br>
-`/api/orders/search=23-13452-90981 21-13455-64028`
+`/api/orders?search=23-13452-90981 21-13455-64028`
 #### Request
 ```json
 {}
