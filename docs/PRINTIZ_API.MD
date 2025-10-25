@@ -68,6 +68,69 @@ Authorization: Bearer [your-token-goes-here]
 ### Create Orders
 **POST** `/api/orders/v1/create-orders`
 
+#### Description
+This endpoint allows creating new orders with different order types and print methods.
+
+- `order_type` determines whether the order requires label creation or already includes it.
+  - `normal`: Full order details required, used when **purchase shipping labels**.
+  - `label`: Only minimal customer info (may be masked with `*`), **tracking number** and **label link** must be provided.
+
+- `order_page_type` determines the print method:
+  - Leave empty or omit → defaults to **DTF**.
+  - Set to `"DTG"` for **DTG printing** orders.
+
+- `quantity`, `size`, `color`, and `shirt_type` are **always required**.
+- `front_design`, `back_design`, and `extra_design_*` are **optional**,  
+  but if included → their corresponding mockup fields are **required**.
+
+#### Field Definitions
+
+##### Order-Level Fields
+
+| Field | Type | Required | Description | Condition / Notes |
+|--------|------|-----------|--------------|------------------|
+| `order_unique_code` | string | Yes | Unique identifier for internal tracking | Must be unique per order |
+| `external_id` | string | Yes | External platform order ID | Usually from marketplace (e.g. TikTok, Shopify) |
+| `order_type` | string (`normal` \| `label`) | Yes | Defines order source type | See description above |
+| `order_page_type` | string (`DTF` \| `DTG`) | No | Printing technology | Default = `DTF` |
+| `customer_name` | string | Optional | Customer full name | Required for `normal` orders; can be masked for `label` |
+| `customer_email` | string | Optional | Customer email | Required for `normal`; can be masked for `label` |
+| `customer_contact` | string | Optional | Customer phone | Required for `normal`; optional for `label` |
+| `delivery_street` | string | Optional | Street address | Required for `normal`; can be masked for `label` |
+| `delivery_unit` | string | No | Apartment / unit / suite |  |
+| `delivery_city` | string | Optional | City name | Required for `normal`; can be masked for `label` |
+| `delivery_state` | string | Optional | State / province | Required for `normal`; can be masked for `label` |
+| `delivery_zip_code` | string | Optional | Postal code | Required for `normal`; can be masked for `label` |
+| `delivery_country` | string | Optional | Country (ISO code or name) | Required for `normal`; can be masked for `label` |
+| `tracking_number` | string | Optional | Shipment tracking number | Required for `label`; blank for `normal` |
+| `delivery_label` | string (URL) | Optional | Shipping label file (PDF) | Required for `label`; blank for `normal` |
+| `items` | array | Yes | List of products in the order | Must contain at least one item |
+
+---
+
+##### Item-Level Fields
+
+| Field | Type | Required | Description | Condition / Notes |
+|--------|------|-----------|--------------|------------------|
+| `quantity` | integer | Yes | Quantity of this item | Always required |
+| `note` | string | No | Additional note per item |  |
+| `size` | string | Yes | Product size (e.g., `M`, `L`, `2XL`) | Always required |
+| `color` | string | Yes | Product color (e.g., `BLACK`, `SAND`) | Always required |
+| `shirt_type` | string | Yes | Type of garment (e.g., `Tshirt`, `Hoodie`) | Always required |
+| `front_design` | string (URL) | Optional | Front design file | If provided → `mockup_front` required |
+| `back_design` | string (URL) | Optional | Back design file | If provided → `mockup_back` required |
+| `mockup_front` | string (URL) | Optional | Front mockup image | Required if `front_design` is provided |
+| `mockup_back` | string (URL) | Optional | Back mockup image | Required if `back_design` is provided |
+| `extra_design_1` | string (URL) | Optional | Optional extra design #1 | If provided → `mockup_extra_1` required |
+| `mockup_extra_1` | string (URL) | Optional | Optional extra mockup #1 | Required if `extra_design_1` is provided |
+| `extra_design_2` | string (URL) | Optional | Optional extra design #2 | If provided → `mockup_extra_2` required |
+| `mockup_extra_2` | string (URL) | Optional | Optional extra mockup #2 | Required if `extra_design_2` is provided |
+| `extra_design_3` | string (URL) | Optional | Optional extra design #3 | If provided → `mockup_extra_3` required |
+| `mockup_extra_3` | string (URL) | Optional | Optional extra mockup #3 | Required if `extra_design_3` is provided |
+| `is_rush` | boolean | No | Rush production flag |  |
+
+---
+
 #### Request - Order Type `normal`
 ```json
 {
