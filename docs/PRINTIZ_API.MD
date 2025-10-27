@@ -72,7 +72,7 @@ Authorization: Bearer [your-token-goes-here]
 This endpoint allows creating new orders with different order types and print methods.
 
 - `order_type` determines whether the order requires label creation or already includes it.
-  - `normal`: Full order details required, used when **purchase shipping labels**.
+  - `normal`: Full order details required, used when there is no shipping label and needs to be **purchase shipping labels**.
   - `label`: Only minimal customer info (may be masked with `*`), **tracking number** and **label link** must be provided.
 
 - `order_page_type` determines the print method:
@@ -116,7 +116,7 @@ This endpoint allows creating new orders with different order types and print me
 | `note` | string | No | Additional note per item |  |
 | `size` | string | Yes | Product size (e.g., `M`, `L`, `2XL`) | Always required |
 | `color` | string | Yes | Product color (e.g., `BLACK`, `SAND`) | Always required |
-| `shirt_type` | string | Yes | Type of garment (e.g., `Tshirt`, `Hoodie`) | Always required |
+| `shirt_type` | string | Yes | Type of shirt (e.g., `tshirt`, `hoodie`) | Always required. See the available options listed below. |
 | `front_design` | string (URL) | Optional | Front design file | If provided → `mockup_front` required |
 | `back_design` | string (URL) | Optional | Back design file | If provided → `mockup_back` required |
 | `mockup_front` | string (URL) | Optional | Front mockup image | Required if `front_design` is provided |
@@ -130,6 +130,21 @@ This endpoint allows creating new orders with different order types and print me
 | `is_rush` | boolean | No | Rush production flag |  |
 
 ---
+
+##### Available `shirt_type` Options
+
+| `shirt_type` | Description |
+|---------------|-------------|
+| `fulltshirt` | All-over print T-shirt |
+| `tshirt` | Standard unisex T-shirt |
+| `ytshirt` | Youth T-shirt same as the Kid’s T-shirt but with a different naming convention (use `kidshirt` instead) |
+| `kidshirt` | Kid’s T-shirt (**recommended**) |
+| `hoodie` | Hoodie with hood |
+| `sweatshirt` | Sweatshirt without hood |
+| `comfort` | Comfort Colors heavy cotton T-shirt |
+| `tanktop` | Sleeveless Tank Top |
+| `bella` | Bella Canvas T-shirt |
+
 
 #### Request - Order Type `normal`
 ```json
@@ -157,7 +172,7 @@ This endpoint allows creating new orders with different order types and print me
                     "note": "",
                     "size": "2XL",
                     "color": "SAND",
-                    "shirt_type": "Tshirt",
+                    "shirt_type": "tshirt",
                     "front_design": "https://s3.amazonaws.com/az89ecom.image/47370_front.png",
                     "back_design": "https://s3.amazonaws.com/az89ecom.image/47370_back.png",
                     "mockup_front": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
@@ -202,7 +217,7 @@ This endpoint allows creating new orders with different order types and print me
                     "note": "",
                     "size": "2XL",
                     "color": "SAND",
-                    "shirt_type": "Tshirt",
+                    "shirt_type": "tshirt",
                     "front_design": "https://s3.amazonaws.com/az89ecom.image/47370_front.png",
                     "back_design": "https://s3.amazonaws.com/az89ecom.image/47370_back.png",
                     "mockup_front": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
@@ -247,7 +262,7 @@ This endpoint allows creating new orders with different order types and print me
                     "note": "",
                     "size": "2XL",
                     "color": "SAND",
-                    "shirt_type": "Tshirt",
+                    "shirt_type": "tshirt",
                     "front_design": "https://s3.amazonaws.com/az89ecom.image/47370_front.png",
                     "back_design": "https://s3.amazonaws.com/az89ecom.image/47370_back.png",
                     "mockup_front": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
