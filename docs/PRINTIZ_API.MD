@@ -68,47 +68,111 @@ Authorization: Bearer [your-token-goes-here]
 ### Create Orders
 **POST** `/api/orders/v1/create-orders`
 
-#### Request
+#### Description
+This endpoint allows creating new orders with different order types and print methods.
+
+- `order_type` determines whether the order requires label creation or already includes it.
+  - `normal`: Full order details required, used when there is no shipping label and needs to be **purchase shipping labels**.
+  - `label`: Only minimal customer info (may be masked with `*`), **tracking number** and **label link** must be provided.
+
+- `order_page_type` determines the print method:
+  - Leave empty or omit → defaults to **DTF**.
+  - Set to `"DTG"` for **DTG printing** orders.
+
+- `quantity`, `size`, `color`, and `shirt_type` are **always required**.
+- `front_design`, `back_design`, and `extra_design_*` are **optional**,  
+  but if included → their corresponding mockup fields are **required**.
+
+#### Field Definitions
+
+##### Order-Level Fields
+
+| Field | Type | Required | Description | Condition / Notes |
+|--------|------|-----------|--------------|------------------|
+| `order_unique_code` | string | Yes | Unique identifier for internal tracking | Must be unique per order |
+| `external_id` | string | Yes | External platform order ID | Usually from marketplace (e.g. TikTok, Shopify) |
+| `order_type` | string (`normal` \| `label`) | Yes | Defines order source type | See description above |
+| `order_page_type` | string (`DTF` \| `DTG`) | No | Printing technology | Default = `DTF` |
+| `customer_name` | string | Optional | Customer full name | Required for `normal` orders; can be masked for `label` |
+| `customer_email` | string | Optional | Customer email | Required for `normal`; can be masked for `label` |
+| `customer_contact` | string | Optional | Customer phone | Required for `normal`; optional for `label` |
+| `delivery_street` | string | Optional | Street address | Required for `normal`; can be masked for `label` |
+| `delivery_unit` | string | No | Apartment / unit / suite |  |
+| `delivery_city` | string | Optional | City name | Required for `normal`; can be masked for `label` |
+| `delivery_state` | string | Optional | State / province | Required for `normal`; can be masked for `label` |
+| `delivery_zip_code` | string | Optional | Postal code | Required for `normal`; can be masked for `label` |
+| `delivery_country` | string | Optional | Country (ISO code or name) | Required for `normal`; can be masked for `label` |
+| `tracking_number` | string | Optional | Shipment tracking number | Required for `label`; blank for `normal` |
+| `delivery_label` | string (URL) | Optional | Shipping label file (PDF) | Required for `label`; blank for `normal` |
+| `items` | array | Yes | List of products in the order | Must contain at least one item |
+
+---
+
+##### Item-Level Fields
+
+| Field | Type | Required | Description | Condition / Notes |
+|--------|------|-----------|--------------|------------------|
+| `quantity` | integer | Yes | Quantity of this item | Always required |
+| `note` | string | No | Additional note per item |  |
+| `size` | string | Yes | Product size (e.g., `M`, `L`, `2XL`) | Always required |
+| `color` | string | Yes | Product color (e.g., `BLACK`, `SAND`) | Always required |
+| `shirt_type` | string | Yes | Type of shirt (e.g., `tshirt`, `hoodie`) | Always required. See the available options listed below. |
+| `front_design` | string (URL) | Optional | Front design file | If provided → `mockup_front` required |
+| `back_design` | string (URL) | Optional | Back design file | If provided → `mockup_back` required |
+| `mockup_front` | string (URL) | Optional | Front mockup image | Required if `front_design` is provided |
+| `mockup_back` | string (URL) | Optional | Back mockup image | Required if `back_design` is provided |
+| `extra_design_1` | string (URL) | Optional | Optional extra design #1 | If provided → `mockup_extra_1` required |
+| `mockup_extra_1` | string (URL) | Optional | Optional extra mockup #1 | Required if `extra_design_1` is provided |
+| `extra_design_2` | string (URL) | Optional | Optional extra design #2 | If provided → `mockup_extra_2` required |
+| `mockup_extra_2` | string (URL) | Optional | Optional extra mockup #2 | Required if `extra_design_2` is provided |
+| `extra_design_3` | string (URL) | Optional | Optional extra design #3 | If provided → `mockup_extra_3` required |
+| `mockup_extra_3` | string (URL) | Optional | Optional extra mockup #3 | Required if `extra_design_3` is provided |
+| `is_rush` | boolean | No | Rush production flag |  |
+
+---
+
+##### Available `shirt_type` Options
+
+| `shirt_type` | Description |
+|---------------|-------------|
+| `fulltshirt` | All-over print T-shirt |
+| `tshirt` | Standard unisex T-shirt |
+| `ytshirt` | Youth T-shirt same as the Kid’s T-shirt but with a different naming convention (use `kidshirt` instead) |
+| `kidshirt` | Kid’s T-shirt (**recommended**) |
+| `hoodie` | Hoodie with hood |
+| `sweatshirt` | Sweatshirt without hood |
+| `comfort` | Comfort Colors heavy cotton T-shirt |
+| `tanktop` | Sleeveless Tank Top |
+| `bella` | Bella Canvas T-shirt |
+
+
+#### Request - Order Type `normal`
 ```json
 {
-  "orders": [
+    "orders": [
         {
             "order_unique_code": "AZBV_TT0811_007_577036687762100371",
             "external_id": "577036687762100371",
-            "order_type": "label",
-            "status": "Order_Await_Approval",
-            "customer_name": "T***as D***ll",
+            "order_type": "normal",
+            "order_page_type": "",
+            "customer_name": "Maya Smith",
             "customer_email": "v4bD2USHHNJ5RYNGGVP4MQ6C33W24@scs.tiktokw.us",
-            "customer_contact": "(+1)501*****46",
-            "delivery_street": "42************",
-            "delivery_city": "N ***********",
-            "delivery_state": "Arkansas",
-            "delivery_zip_code": "72***",
+            "customer_contact": "(+1)3212793ABC",
+            "delivery_street": "550 Battery St",
+            "delivery_unit": "Apt 123",
+            "delivery_city": "San Francisco",
+            "delivery_state": "California",
+            "delivery_zip_code": "94111",
             "delivery_country": "US",
-            "delivery_unit": "",
-            "subtotal": 10.5,
-            "total": 11.0,
-            "delivery_fee": 0.5,
-            "service_fee": 0,
-            "platform": "TIKTOK",
-            "platform_business_id": "2",
-            "created_at_epoch": 1755147628,
-            "scheduled_complete_at_epoch": 0,
-            "tracking_number": "9400109208316578510797",
-            "delivery_label": "https://open-fs.tiktokshops.us/wsos_v2/oec_fulfillment_doc_tts/object/wsos6875cd8983598b37?expire=1752637210&skipCookie=true&timeStamp=1752550810&sign=4441f3e1b06a2f3f06aa85d9dd94051f36d2170a4b88778239e872fd0a2d8dd2",
+            "tracking_number": "",
+            "delivery_label": "",
             "items": [
                 {
-                    "item_unique_code": "AZBV_TT0811_007_577036687762100371_1755147628",
-                    "product_unique_code": "TSHIRTGILDAN5000_2XL_SAND",
-                    "product_code": "shirtVFbHFh",
-                    "product_name": "Tshirt",
                     "quantity": 1,
-                    "unit_price": 7.0,
-                    "total": 10.5,
                     "note": "",
                     "size": "2XL",
                     "color": "SAND",
-                    "shirt_type": "Tshirt",
+                    "shirt_type": "tshirt",
                     "front_design": "https://s3.amazonaws.com/az89ecom.image/47370_front.png",
                     "back_design": "https://s3.amazonaws.com/az89ecom.image/47370_back.png",
                     "mockup_front": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
@@ -121,29 +185,102 @@ Authorization: Bearer [your-token-goes-here]
                     "mockup_extra_3": null,
                     "is_rush": false
                 }
-            ],
-            "order_detail": {
-                "shipping_method": "",
-                "link_label": "https://open-fs.tiktokshops.us/wsos_v2/oec_fulfillment_doc_tts/object/wsos6875cd8983598b37?expire=1752637210&skipCookie=true&timeStamp=1752550810&sign=4441f3e1b06a2f3f06aa85d9dd94051f36d2170a4b88778239e872fd0a2d8dd2",
-                "note": "",
-                "order_change_actions": [],
-                "additional_params": {
-                    "priority": "normal",
-                    "special_instructions": ""
-                }
-            },
-            "order_change_actions": [
-                {
-                    "action_type": "Order_Await_Approval",
-                    "at_epoch_second": 1755147628,
-                    "description": "Order has been uploaded from .csv and awaits approval.",
-                    "changed_by": "Seller-API-2"
-                }
-            ]
+            ] 
         }
     ]
 }
 ```
+
+#### Request - Order Type `label`
+```json
+{
+    "orders": [
+        {
+            "order_unique_code": "AZBV_TT0811_007_577036687762100371",
+            "external_id": "577036687762100371",
+            "order_type": "label",
+            "order_page_type": "",
+            "customer_name": "S***nna M***ne",
+            "customer_email": "v4bD2USHHNJ5RYNGGVP4MQ6C33W24@scs.tiktokw.us",
+            "customer_contact": "(+1)501*****46",
+            "delivery_street": "42************",
+            "delivery_unit": "",
+            "delivery_city": "N ***********",
+            "delivery_state": "Arkansas",
+            "delivery_zip_code": "72***",
+            "delivery_country": "US",
+            "tracking_number": "9400109208316578510797",
+            "delivery_label": "https://open-fs.tiktokshops.us/wsos_v2/oec_fulfillment_doc_tts/object/wsos6875cd8983598b37?expire=1752637210&skipCookie=true&timeStamp=1752550810&sign=4441f3e1b06a2f3f06aa85d9dd94051f36d2170a4b88778239e872fd0a2d8dd2",
+            "items": [
+                {
+                    "quantity": 1,
+                    "note": "",
+                    "size": "2XL",
+                    "color": "SAND",
+                    "shirt_type": "tshirt",
+                    "front_design": "https://s3.amazonaws.com/az89ecom.image/47370_front.png",
+                    "back_design": "https://s3.amazonaws.com/az89ecom.image/47370_back.png",
+                    "mockup_front": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
+                    "mockup_back": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
+                    "extra_design_1": null,
+                    "mockup_extra_1": null,
+                    "extra_design_2": null,
+                    "mockup_extra_2": null,
+                    "extra_design_3": null,
+                    "mockup_extra_3": null,
+                    "is_rush": false
+                }
+            ] 
+        }
+    ]
+}
+```
+
+#### Request - Order Page Type `DTG`
+```json
+{
+    "orders": [
+        {
+            "order_unique_code": "AZBV_TT0811_007_577036687762100371",
+            "external_id": "577036687762100371",
+            "order_type": "label",
+            "order_page_type": "DTG",
+            "customer_name": "S***nna M***ne",
+            "customer_email": "v4bD2USHHNJ5RYNGGVP4MQ6C33W24@scs.tiktokw.us",
+            "customer_contact": "(+1)501*****46",
+            "delivery_street": "42************",
+            "delivery_unit": "",
+            "delivery_city": "N ***********",
+            "delivery_state": "Arkansas",
+            "delivery_zip_code": "72***",
+            "delivery_country": "US",
+            "tracking_number": "",
+            "delivery_label": "",
+            "items": [
+                {
+                    "quantity": 1,
+                    "note": "",
+                    "size": "2XL",
+                    "color": "SAND",
+                    "shirt_type": "tshirt",
+                    "front_design": "https://s3.amazonaws.com/az89ecom.image/47370_front.png",
+                    "back_design": "https://s3.amazonaws.com/az89ecom.image/47370_back.png",
+                    "mockup_front": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
+                    "mockup_back": "https://p16-oec-ttp.tiktokcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/5ad8d3eb559f4040b32e5e942eb9f23f~tplv-omjb5zjo8w-origin-jpeg.jpeg?dr=10493&from=520841845&idc=useast5&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d",
+                    "extra_design_1": null,
+                    "mockup_extra_1": null,
+                    "extra_design_2": null,
+                    "mockup_extra_2": null,
+                    "extra_design_3": null,
+                    "mockup_extra_3": null,
+                    "is_rush": false
+                }
+            ] 
+        }
+    ]
+}
+```
+
 #### Response
 ```json
 {
@@ -167,11 +304,11 @@ Authorization: Bearer [your-token-goes-here]
 #### Params for lookup order by id(s) or unique code(s)
 Single Search
 </br>
-`/api/orders/search=23-13452-90981`
+`/api/orders?search=23-13452-90981`
 </br>
 Multiple Search
 </br>
-`/api/orders/search=23-13452-90981 21-13455-64028`
+`/api/orders?search=23-13452-90981 21-13455-64028`
 #### Request
 ```json
 {}
