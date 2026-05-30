@@ -11,6 +11,7 @@ All requests are JSON over HTTPS, and all responses are JSON encoded.
     - [Login API](#login)
     - [Create Orders API](#create-orders)
     - [Get Orders API](#get-orders)
+    - [Delete Order API](#delete-order)
     - [List Products API](#list-products)
     - [Webhooks](#webhooks)
 ---
@@ -520,6 +521,39 @@ Multiple Search
             "count_total_items": 166
         }
     }
+}
+```
+
+### Delete Order
+**DELETE** `/api/orders/{id}`
+
+#### Description
+This endpoint allows deleting an order. For safety and consistency, deletion is restricted based on the user's role and the order's current progress.
+
+#### Seller Conditions
+If you are authenticated as a **Seller**, you can only delete an order if it is in the following status:
+- **`Order_Await_Approval`**
+
+If the order has already been approved, paged, or entered production, you will receive a message stating "Can not delete this order".
+
+#### Path Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | integer | Yes | The internal numeric ID of the order |
+
+#### Response (Success)
+```json
+{
+    "message": "Order deleted successfully",
+    "success": true
+}
+```
+
+#### Response (Forbidden for Seller)
+```json
+{
+    "message": "Can not delete this order",
+    "success": false
 }
 ```
 
