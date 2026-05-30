@@ -12,6 +12,7 @@ All requests are JSON over HTTPS, and all responses are JSON encoded.
     - [Create Orders API](#create-orders)
     - [Get Orders API](#get-orders)
     - [List Products API](#list-products)
+    - [Webhooks](#webhooks)
 ---
 
 ## Base URL
@@ -561,5 +562,109 @@ Multiple Search
         "Antique Cherry Red",
         "Antique Irish Green"
     ]
+}
+```
+
+---
+
+### Webhooks
+
+Webhooks allow you to receive real-time notifications when certain events occur in Printiz.
+
+#### Setup via UI
+The easiest way to configure your webhook is through the Printiz Dashboard:
+
+1. Log in to your **Printiz Dashboard**.
+2. Navigate to the **Settings** page from the sidebar.
+3. Click on the **Webhook** tab.
+4. Enter your **Webhook URL** (e.g., `https://your-domain.com/webhook`).
+5. Enter a **Webhook Secret Key** (optional but recommended for security).
+6. Click **Save Webhook Configuration**.
+7. (Optional) Use the **Test Webhook** button to send a sample payload to your URL and verify the connection.
+
+#### Configuration via API
+You can also configure your webhook URL and secret key via the API.
+
+**PUT** `/api/users/webhook/config`
+
+##### Request
+```json
+{
+  "webhook_url": "https://your-domain.com/webhook",
+  "webhook_secret_key": "your_secure_secret_key"
+}
+```
+##### Response
+```json
+{
+    "success": true, 
+    "message": "Webhook configuration updated successfully",
+    "data": {
+        "webhook_url": "https://your-domain.com/webhook",
+        "webhook_secret_key": "your_secure_secret_key",
+        "configured_at": "2026-05-30T10:00:00Z"
+    }
+}
+```
+
+#### Signature Verification
+To ensure that a webhook was sent by Printiz, you should verify the signature included in the `X-Webhook-Signature` header. 
+
+The signature is a **HMAC SHA256** hex digest of the raw JSON payload using your `webhook_secret_key` as the key.
+
+Example verification (Node.js):
+```javascript
+const crypto = require('crypto');
+
+const signature = request.headers['x-webhook-signature'];
+const payload = JSON.stringify(request.body);
+const expectedSignature = crypto
+  .createHmac('sha256', WEBHOOK_SECRET_KEY)
+  .update(payload)
+  .digest('hex');
+
+if (signature === expectedSignature) {
+  // Valid request
+}
+```
+
+#### Events
+
+##### `order.status_changed`
+Triggered whenever an order's status is updated (e.g., from `Order_Await_Approval` to `Order_In_Production`).
+
+###### Payload
+```json
+{
+    "event": "order.status_changed",
+    "timestamp": 1758443070,
+    "data": [
+        {
+            "order_id": 81,
+            "order_unique_code": "13-13468-53887",
+            "updated_status": "Order_Await_Approval"
+        }
+    ]
+}
+```
+
+#### Testing
+You can trigger a test webhook to verify your endpoint is correctly receiving and validating requests.
+
+**POST** `/api/users/webhook/test`
+
+##### Request
+```json
+{
+  "webhook_url": "https://your-domain.com/webhook",
+  "webhook_secret_key": "your_secure_secret_key"
+}
+```
+##### Response
+```json
+{
+    "success": true,
+    "message": "Webhook test successful! Received status 200",
+    "status_code": 200
 }
 ```
