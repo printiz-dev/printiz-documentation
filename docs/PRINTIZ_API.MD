@@ -75,9 +75,10 @@ This endpoint allows creating new orders with different order types and print me
   - `normal`: Full order details required, used when there is no shipping label and needs to be **purchase shipping labels**.
   - `label`: Only minimal customer info (may be masked with `*`), **tracking number** and **label link** must be provided.
 
-- `order_page_type` determines the print method:
+- `order_page_type` determines the print method or product category:
   - Leave empty or omit → defaults to **DTF**.
   - Set to `"DTG"` for **DTG printing** orders.
+  - Set to `"NECKLACE"` for **Necklace** orders.
 
 - `quantity`, `size`, `color`, and `shirt_type` are **always required**.
 - `front_design`, `back_design`, and `extra_design_*` are **optional**,  
@@ -92,7 +93,7 @@ This endpoint allows creating new orders with different order types and print me
 | `order_unique_code` | string | Yes | Unique identifier for internal tracking | Must be unique per order |
 | `external_id` | string | Yes | External platform order ID | Usually from marketplace (e.g. TikTok, Shopify) |
 | `order_type` | string (`normal` \| `label`) | Yes | Defines order source type | See description above |
-| `order_page_type` | string (`DTF` \| `DTG`) | No | Printing technology | Default = `DTF` |
+| `order_page_type` | string (`DTF` \| `DTG` \| `NECKLACE`) | No | Printing technology / Category | Default = `DTF` |
 | `customer_name` | string | Optional | Customer full name | Required for `normal` orders; can be masked for `label` |
 | `customer_email` | string | Optional | Customer email | Required for `normal`; can be masked for `label` |
 | `customer_contact` | string | Optional | Customer phone | Required for `normal`; optional for `label` |
@@ -115,8 +116,8 @@ This endpoint allows creating new orders with different order types and print me
 | `quantity` | integer | Yes | Quantity of this item | Always required |
 | `note` | string | No | Additional note per item |  |
 | `size` | string | Yes | Product size (e.g., `M`, `L`, `2XL`) | Always required |
-| `color` | string | Yes | Product color (e.g., `BLACK`, `SAND`) | Always required |
-| `shirt_type` | string | Yes | Type of shirt (e.g., `tshirt`, `hoodie`) | Always required. See the available options listed below. |
+| `color` | string | Yes | Product color (e.g., `BLACK`, `SAND`, `black box`, `light wood box`) | Always required. For NECKLACE: `black box` or `light wood box`. |
+| `shirt_type` | string | Yes | Product type (e.g., `tshirt`, `br003-silver`) | Always required. See the available options listed below. |
 | `front_design` | string (URL) | Optional | Front design file | If provided → `mockup_front` required |
 | `back_design` | string (URL) | Optional | Back design file | If provided → `mockup_back` required |
 | `mockup_front` | string (URL) | Optional | Front mockup image | Required if `front_design` is provided |
@@ -144,6 +145,21 @@ This endpoint allows creating new orders with different order types and print me
 | `comfort` | Comfort Colors heavy cotton T-shirt |
 | `tanktop` | Sleeveless Tank Top |
 | `bella` | Bella Canvas T-shirt |
+
+##### Available `shirt_type` Options for NECKLACE
+
+| Series | `shirt_type` Values |
+|--------|----------------------|
+| **ALN series** | `aln003` |
+| **BR series** | `br001`, `br002`, `br003-silver`, `br005-silver`, `br006`, `br007` |
+| **BSCN series** | `bscn-cn01`, `bscn005` |
+| **CBN series** | `cbnln012`, `cbndn013`, `cbnfl014` |
+| **CN series** | `cn007`, `cn008` |
+| **CWN series** | `cwn011` |
+| **DN series** | `dn002`, `dne010` |
+| **FLE / FLN series** | `fle008`, `fln006`, `gold_fln006` |
+| **LKE / LKN series** | `lke009`, `lkn001`, `gold_lkn001` |
+| **ILN series** | `iln004` |
 
 
 #### Request - Order Type `normal`
@@ -278,6 +294,40 @@ This endpoint allows creating new orders with different order types and print me
             ] 
         }
     ]
+}
+```
+
+#### Request - Order Page Type `NECKLACE`
+```json
+{
+  "orders": [
+    {
+      "order_unique_code": "AZBV_TT0811_007_577036687762100371",
+      "external_id": "577036687762100371",
+      "order_type": "label",
+      "customer_name": "S***nna M***ne",
+      "customer_email": "v4bD2USHHNJ5RYNGGVP4MQ6C33W24@scs.tiktokw.us",
+      "customer_contact": "(+1)501*****46",
+      "delivery_street": "42************",
+      "delivery_unit": "",
+      "delivery_city": "N ***********",
+      "delivery_state": "Arkansas",
+      "delivery_zip_code": "72***",
+      "delivery_country": "US",
+      "tracking_number": "9400109208316578510797",
+      "delivery_label": "https://open-fs.tiktokshops.us/wsos_v2/oec_fulfillment_doc_tts/object/wsos6875cd8983598b37?expire=1752637210&skipCookie=true&timeStamp=1752550810&sign=4441f3e1b06a2f3f06aa85d9dd94051f36d2170a4b88778239e872fd0a2d8dd2",
+      "order_page_type": "NECKLACE",
+      "items": [
+        {
+          "quantity": 1,
+          "color": "light wood box",
+          "shirt_type": "br003-silver",
+          "extra_design_1": "lh3.googleusercontent.com/d/1HTVc06ODr7ErCH48RDzbJrZM9DykyNll=s0",
+          "is_rush": false
+        }
+      ]
+    }
+  ]
 }
 ```
 
