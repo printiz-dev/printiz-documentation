@@ -536,14 +536,6 @@ If you are authenticated as a **Seller**, you can only delete an order if it is 
 
 If the order has already been approved, paged, or entered production, you will receive a message stating "Can not delete this order".
 
-#### Global Restrictions
-Deletion is strictly forbidden for all users (including Admins) if the order has reached any of the fulfillment stages:
-- `Order_Paged`
-- `Order_In_Production`
-- `Order_Product_Completed`
-- `Order_In_Labeling`
-- `Order_Labeled`
-
 #### Path Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
